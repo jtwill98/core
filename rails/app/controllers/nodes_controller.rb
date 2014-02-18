@@ -80,7 +80,7 @@ class NodesController < ApplicationController
     # deal w/ hint shortcuts  (these are hardcoded but MUST match the imported Attrib list)
     hint = JSON.parse(params[:hint] || "{}")
     hint["network-admin"] = {"v4addr"=>params["ip"]} if params.has_key? :ip
-    hint["provisioner-repos"] = {"admin_mac"=>params["mac"]} if params.has_key? :mac
+    hint["provisioner-dhcp-database"] = {"admin_mac"=>params["mac"]} if params.has_key? :mac
 
     n = Node.create! params
     if hint != {}

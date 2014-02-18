@@ -196,7 +196,7 @@ Crowbar::Application.routes.draw do
           end
 
           #provisioner          
-          get 'dhcp(/:id)' => 'Dhcps#index'
+          get 'dhcp(/:id)' => 'BarclampProvisioner::Dhcps#index'
 
         end # version
       end # api

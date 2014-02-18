@@ -35,7 +35,6 @@ class BarclampProvisioner::DhcpDatabase < Role
     clients = {}
     mac_hint = ::Attrib.find_key "hint-admin-mac"
 
-
     Role.transaction do
       Node.all.each do |node|
         ints = (node.discovery["ohai"]["network"]["interfaces"] rescue nil)
@@ -43,6 +42,8 @@ class BarclampProvisioner::DhcpDatabase < Role
         # get the suggested mac (requies an ip address also!
         preseed = mac_hint.get(node, :hint) if mac_hint
         mac_list << preseed if preseed 
+
+        Rails.logger.debug "ZEHICLE 1 provisioner-dhcp-database: updating DHCP table for #{node.name} with #{preseed}"
 
         # scan interfaces to capture all the mac addresses discovered
         unless ints.nil?
@@ -56,6 +57,7 @@ class BarclampProvisioner::DhcpDatabase < Role
             end
           end
         end
+        Rails.logger.debug "ZEHICLE 2 provisioner-dhcp-database: updating DHCP table for #{node.name} with #{mac_list}"
         # we need to have at least 1 mac (from preload or inets)
         next unless mac_list.length > 0
         # add this node to the DHCP clients list
@@ -64,6 +66,7 @@ class BarclampProvisioner::DhcpDatabase < Role
           "v4addr" => node.addresses.reject{|a|a.v6?}.sort.first.to_s,
           "bootenv" => node.bootenv
         }
+        Rails.logger.debug "ZEHICLE 3 provisioner-dhcp-database: #{clients}"
       end
     end
     # this gets the client list sent to the jig implementing the DHCP database role

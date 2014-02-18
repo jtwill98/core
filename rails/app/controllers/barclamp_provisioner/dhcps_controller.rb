@@ -18,6 +18,7 @@ class BarclampProvisioner::DhcpsController < ::ApplicationController
 
   def index
     # we need to get the database
+    entries = {}
     begin
       deploy = Deployment.system_root.first
       admin = Node.admin.first

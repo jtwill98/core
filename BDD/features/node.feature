@@ -166,6 +166,6 @@ Feature: Nodes
       And there are no pending Crowbar runs for {o:node} "bdd-hint-ip4.data.edu"
     When REST requests the "/api/v2/dhcp/bdd-hint-ip4.data.edu" page
     Then Array key "mac_addresses" matches "f6:f5:f4:f3:f2:f1"
-      And Array key "v4addr" matches "192\.168\.124\.127\/([0-9]{2})"
+      And Array key "v4addr" matches "192.168.124.\\d{1,3}\/\\d{1,2}"
     Finally there are no pending Crowbar runs for {o:node} "bdd-hint-ip4.data.edu"
       And REST removes the {object:node} "bdd-hint-ip4.data.edu"
